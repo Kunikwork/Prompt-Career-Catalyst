@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Catalyst - Elite Career Advancement System</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Base styles */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+background: linear-gradient(135deg, #1a1c20, #24262b, #1d1f23);
+color: #f5f5f5;
+font-family: 'Poppins', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+line-height: 1.6; /* Reduced line height for better space usage */
+min-height: 100vh;
+position: relative;
+overflow-x: hidden;
+padding: 15px; /* Reduced from 20px */
+background-attachment: fixed;
+}
+/* Weather animations */
+.weather-animation {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: -1;
+}
+@keyframes rain {
+0% { background-position: 0 0; }
+100% { background-position: 0 100%; }
+}
+@keyframes snow {
+0% { background-position: 0 0; }
+100% { background-position: 20px 100px; }
+}
+@keyframes wind {
+0% { transform: translateX(0); }
+100% { transform: translateX(20px); }
+}
+.weather-rain {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="100" viewBox="0 0 20 100"><line x1="10" y1="0" x2="10" y2="100" stroke="rgba(148, 163, 184, 0.1)" stroke-width="1"/></svg>');
+background-size: 20px 100px;
+animation: rain 1s linear infinite;
+opacity: 0.5;
+}
+.weather-snow {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="1.5" fill="rgba(200, 200, 255, 0.2)"/></svg>');
+background-size: 40px 40px;
+animation: snow 10s linear infinite;
+opacity: 0.5;
+}
+.weather-wind {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="20" viewBox="0 0 100 20"><path d="M0,10 Q25,5 50,10 T100,10" stroke="rgba(148, 163, 184, 0.1)" stroke-width="1" fill="none"/></svg>');
+background-size: 100px 20px;
+animation: wind 5s linear infinite;
+opacity: 0.3;
+}
+.weather-sunny {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: radial-gradient(circle at 10% 20%, rgba(251, 191, 36, 0.05) 0%, transparent 20%),
+radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 20%);
+opacity: 0.2;
+}
+/* Container */
+.container {
+max-width: 1400px;
+margin: 0 auto;
+padding: 15px; /* Reduced from 20px */
+position: relative;
+z-index: 10;
+}
+/* Header - Enhanced glass effect */
+header {
+text-align: center;
+margin-bottom: 12px; /* Reduced from 15px */
+padding: 15px 20px; /* Reduced from 20px 25px */
+background: rgba(20, 20, 30, 0.25);
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+backdrop-filter: blur(15px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+position: relative;
+overflow: hidden;
+animation: fadeIn 0.8s ease-out;
+transition: all 0.4s ease;
+}
+header:hover {
+transform: translateY(-5px);
+box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(-20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+/* Gradient border effect - smoother animation */
+header::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+border-radius: 20px;
+background: linear-gradient(45deg, #8a2be2, #ff00ff, #4a90e2, #8a2be2) border-box;
+-webkit-mask:
+linear-gradient(#fff 0 0) padding-box,
+linear-gradient(#fff 0 0);
+-webkit-mask-composite: destination-out;
+mask-composite: exclude;
+z-index: -1;
+animation: borderAnimation 15s ease infinite;
+background-size: 300% 300%;
+}
+@keyframes borderAnimation {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+h1 {
+font-size: 3.2rem;
+margin-bottom: 8px; /* Reduced from 10px */
+font-weight: 700;
+background: linear-gradient(90deg, #f5f5f5, #d4d4d4);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+letter-spacing: -0.5px;
+text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+#greeting {
+font-size: 2.2rem;
+margin-bottom: 8px; /* Reduced from 10px */
+font-weight: 400;
+color: #d4d4d4;
+min-height: 2.5rem;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-wrap: wrap;
+gap: 0.5rem;
+}
+.name-gradient {
+background: linear-gradient(90deg, #8a2be2, #ff00ff, #4a90e2);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+font-weight: 600;
+animation: gradientAnimation 12s ease infinite;
+background-size: 300% 300%;
+}
+@keyframes gradientAnimation {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+.subtitle {
+font-size: 1.3rem;
+max-width: 90%; /* Changed from fixed 700px to percentage */
+margin: 0 auto;
+color: #d4d4d4;
+font-weight: 300;
+line-height: 1.6;
+background: rgba(0, 0, 0, 0.2);
+padding: 10px 15px;
+border-radius: 15px;
+backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.05);
+}
+/* How to use section */
+.how-to-use {
+background: rgba(20, 20, 30, 0.25);
+border-radius: 20px;
+padding: 15px; /* Reduced from 20px */
+margin-bottom: 12px; /* Reduced from 15px */
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+backdrop-filter: blur(15px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+position: relative;
+animation: slideUp 0.8s ease-out;
+transition: all 0.4s ease;
+}
+.how-to-use:hover {
+transform: translateY(-3px);
+box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+@keyframes slideUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.how-to-use-title {
+font-size: 1.5rem;
+font-weight: 600;
+color: #f5f5f5;
+margin-bottom: 10px; /* Reduced from 15px */
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.how-to-use-title i {
+color: #8a2be2;
+font-size: 1.3rem;
+}
+.how-to-use-steps {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px; /* Reduced from 15px */
+margin-top: 12px; /* Reduced from 15px */
+}
+.step {
+background: rgba(10, 10, 20, 0.3);
+border-radius: 12px;
+padding: 12px; /* Reduced from 15px */
+display: flex;
+align-items: flex-start;
+gap: 10px;
+}
+.step-number {
+background: linear-gradient(45deg, #8a2be2, #ff00ff);
+color: white;
+width: 30px;
+height: 30px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 600;
+flex-shrink: 0;
+}
+.step-content {
+font-size: 0.95rem;
+line-height: 1.4; /* Reduced from 1.5 */
+}
+.step-highlight {
+color: #4a90e2;
+font-weight: 500;
+}
+.ai-model-link {
+color: #8a2be2;
+font-weight: 500;
+text-decoration: none;
+cursor: pointer;
+transition: all 0.3s ease;
+position: relative;
+display: inline-block;
+}
+.ai-model-link:hover {
+color: #ff00ff;
+}
+.ai-model-link:after {
+content: '';
+position: absolute;
+bottom: -2px;
+left: 0;
+width: 0;
+height: 2px;
+background: linear-gradient(90deg, #8a2be2, #ff00ff);
+transition: width 0.3s ease;
+}
+.ai-model-link:hover:after {
+width: 100%;
+}
+.copy-feedback {
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: linear-gradient(45deg, #4CAF50, #2E7D32);
+color: white;
+padding: 12px 20px;
+border-radius: 50px;
+font-weight: 500;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+z-index: 1000;
+transform: translateY(100px);
+opacity: 0;
+transition: all 0.3s ease;
+}
+.copy-feedback.show {
+transform: translateY(0);
+opacity: 1;
+}
+/* Prompt container */
+.prompt-container {
+background: rgba(20, 20, 30, 0.25);
+border-radius: 20px;
+padding: 15px; /* Reduced from 20px */
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+backdrop-filter: blur(15px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+position: relative;
+margin-bottom: 15px; /* Reduced from 20px */
+animation: slideUp 0.8s ease-out;
+transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+max-height: 350px; /* Reduced from 450px */
+display: flex;
+flex-direction: column;
+}
+.prompt-container:hover {
+transform: translateY(-3px);
+box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+.prompt-container.expanded {
+max-height: calc(100vh - 100px) !important;
+transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.prompt-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 12px; /* Reduced from 15px */
+padding-bottom: 12px; /* Reduced from 15px */
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.prompt-title {
+font-size: 1.8rem;
+font-weight: 600;
+color: #f5f5f5;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.prompt-title i {
+color: #8a2be2;
+font-size: 1.5rem;
+}
+/* Copy button */
+#copy-button {
+background: linear-gradient(90deg, #8a2be2, #ff00ff, #4a90e2);
+background-size: 300% 300%;
+color: white;
+border: none;
+padding: 10px 20px; /* Reduced from 12px 24px */
+border-radius: 50px;
+font-size: 1.1rem;
+font-weight: 600;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 12px;
+transition: all 0.3s ease;
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+position: relative;
+overflow: hidden;
+animation: gradientAnimation 12s ease infinite;
+}
+#copy-button:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+#copy-button:active {
+transform: translateY(1px);
+}
+#copy-button.copied {
+background: linear-gradient(45deg, #4CAF50, #2E7D32);
+box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+animation: none;
+}
+#copy-button.copied::after {
+content: 'Copied!';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+background: rgba(46, 125, 50, 0.9);
+}
+/* Prompt text */
+#prompt-text {
+background: rgba(10, 10, 20, 0.3);
+border-radius: 16px;
+padding: 15px; /* Reduced from 20px */
+max-height: 280px; /* Reduced from 370px */
+overflow-y: auto;
+font-family: 'Source Code Pro', monospace;
+font-size: 1.05rem;
+line-height: 1.6; /* Reduced from 1.8 */
+color: #f0f0f0;
+border: 1px solid rgba(255, 255, 255, 0.05);
+white-space: pre-wrap;
+backdrop-filter: blur(5px);
+flex: 1;
+}
+#prompt-text::-webkit-scrollbar {
+width: 10px;
+}
+#prompt-text::-webkit-scrollbar-track {
+background: rgba(0, 0, 0, 0.1);
+border-radius: 10px;
+}
+#prompt-text::-webkit-scrollbar-thumb {
+background: linear-gradient(45deg, #8a2be2, #ff00ff, #4a90e2);
+border-radius: 10px;
+background-size: 300% 300%;
+animation: gradientAnimation 12s ease infinite;
+}
+/* Prompt formatting */
+.prompt-section {
+color: #8a2be2;
+font-weight: 600;
+margin-top: 15px; /* Reduced from 20px */
+margin-bottom: 8px; /* Reduced from 10px */
+display: block;
+}
+.prompt-subsection {
+color: #ff00ff;
+font-weight: 500;
+margin-top: 12px; /* Reduced from 15px */
+margin-bottom: 4px; /* Reduced from 5px */
+display: block;
+}
+.prompt-highlight {
+color: #4a90e2;
+font-weight: 500;
+}
+.prompt-example {
+background: rgba(255, 255, 255, 0.05);
+padding: 8px 12px; /* Reduced from 10px 15px */
+border-radius: 8px;
+margin: 8px 0; /* Reduced from 10px 0 */
+display: block;
+border-left: 3px solid #8a2be2;
+}
+.prompt-important {
+color: #ff6b6b;
+font-weight: 600;
+}
+/* Table styling */
+.audit-table {
+width: 100%;
+border-collapse: collapse;
+margin: 12px 0; /* Reduced from 15px 0 */
+font-size: 0.95rem;
+}
+.audit-table th, .audit-table td {
+border: 1px solid rgba(255, 255, 255, 0.1);
+padding: 8px; /* Reduced from 10px */
+text-align: left;
+}
+.audit-table th {
+background-color: rgba(138, 43, 226, 0.2);
+color: #f0f0f0;
+font-weight: 600;
+}
+.audit-table tr:nth-child(even) {
+background-color: rgba(255, 255, 255, 0.05);
+}
+.audit-table tr:hover {
+background-color: rgba(138, 43, 226, 0.1);
+}
+/* Responsive design */
+@media (min-width: 1600px) {
+.container {
+max-width: 1600px;
+}
+h1 {
+font-size: 3.8rem;
+}
+#greeting {
+font-size: 2.8rem;
+}
+.subtitle {
+font-size: 1.6rem;
+max-width: 95%; /* Changed from fixed 900px to percentage */
+}
+.prompt-title {
+font-size: 2.2rem;
+}
+#prompt-text {
+font-size: 1.2rem;
+padding: 15px; /* Reduced from 20px */
+max-height: calc(100vh - 300px); /* More aggressive reduction */
+}
+.how-to-use {
+padding: 15px; /* Reduced from 20px */
+}
+.how-to-use-title {
+font-size: 1.8rem;
+}
+.step {
+padding: 12px; /* Reduced from 15px */
+}
+.step-content {
+font-size: 1.1rem;
+}
+/* Adjust for larger screens to show content above fold */
+.prompt-container {
+max-height: calc(100vh - 220px); /* More aggressive reduction */
+}
+}
+@media (min-width: 1200px) and (max-width: 1599px) {
+.container {
+max-width: 1300px;
+}
+h1 {
+font-size: 3.5rem;
+}
+#greeting {
+font-size: 2.5rem;
+}
+.subtitle {
+font-size: 1.5rem;
+max-width: 95%; /* Changed from fixed 800px to percentage */
+}
+.prompt-title {
+font-size: 2rem;
+}
+#prompt-text {
+font-size: 1.1rem;
+padding: 15px; /* Reduced from 20px */
+max-height: calc(100vh - 300px); /* More aggressive reduction */
+}
+.how-to-use {
+padding: 15px; /* Reduced from 20px */
+}
+.how-to-use-title {
+font-size: 1.7rem;
+}
+.step {
+padding: 12px; /* Reduced from 15px */
+}
+.step-content {
+font-size: 1.05rem;
+}
+/* Adjust for medium-large screens to show content above fold */
+.prompt-container {
+max-height: calc(100vh - 220px); /* More aggressive reduction */
+}
+}
+@media (max-width: 1199px) {
+.container {
+max-width: 1100px;
+}
+/* Reset to original sizing for smaller screens */
+.prompt-container {
+max-height: 400px; /* Reduced from 500px */
+}
+#prompt-text {
+max-height: 320px; /* Reduced from 400px */
+}
+}
+@media (max-width: 992px) {
+.how-to-use-steps {
+grid-template-columns: 1fr; /* Switch to single column on medium screens */
+}
+}
+@media (max-width: 768px) {
+h1 {
+font-size: 2.4rem;
+}
+#greeting {
+font-size: 1.8rem;
+}
+.prompt-container {
+padding: 15px; /* Reduced from 20px */
+}
+.prompt-header {
+flex-direction: column;
+gap: 15px; /* Reduced from 20px */
+text-align: center;
+}
+#prompt-text {
+padding: 15px; /* Reduced from 20px */
+font-size: 0.98rem;
+}
+#copy-button {
+width: 100%;
+justify-content: center;
+}
+.audit-table {
+font-size: 0.85rem;
+}
+.how-to-use-steps {
+grid-template-columns: 1fr; /* Single column on mobile */
+}
+.step {
+padding: 12px; /* Reduced from 15px */
+}
+}
+@media (max-width: 480px) {
+h1 {
+font-size: 2rem;
+}
+#greeting {
+font-size: 1.5rem;
+}
+.subtitle {
+font-size: 1rem;
+}
+.prompt-title {
+font-size: 1.5rem;
+}
+.audit-table {
+display: block;
+overflow-x: auto;
+}
+}
+/* Loader */
+.loader {
+display: inline-block;
+margin-left: 10px;
+}
+.loader::after {
+content: "";
+display: inline-block;
+width: 12px;
+height: 12px;
+border-radius: 50%;
+border: 2px solid #f5f5f5;
+border-color: #f5f5f5 transparent #f5f5f5 transparent;
+animation: loader 1.2s linear infinite;
+}
+@keyframes loader {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+<!-- Weather animation container -->
+<div class="weather-animation">
+<div class="weather-rain"></div>
+<div class="weather-snow"></div>
+<div class="weather-wind"></div>
+<div class="weather-sunny"></div>
+</div>
+<div class="container">
+<header>
+<h1>Career Catalyst</h1>
+<div id="greeting">Hello<span class="loader"></span></div>
+<p class="subtitle">Transform your career trajectory with AI-powered resume crafting, cover letter generation, and interview preparation tailored to your dream role</p>
+</header>
+<!-- How to use section -->
+<div class="how-to-use">
+<h2 class="how-to-use-title"><i class="fas fa-lightbulb"></i> How to Use This Prompt</h2>
+<div class="how-to-use-steps">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">Copy the prompt using the <span class="step-highlight">Copy Prompt</span> button</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">Run it in a reasoning model (<span id="ai-model" class="ai-model-link"></span>)</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">Enable <span id="ai-mode" class="step-highlight"></span> feature</div>
+</div>
+<div class="step">
+<div class="step-number">4</div>
+<div class="step-content">Paste your resume, job description, and optionally interviewer details</div>
+</div>
+</div>
+</div>
+<main>
+<div class="prompt-container" id="prompt-container">
+<div class="prompt-header">
+<h2 class="prompt-title"><i class="fas fa-briefcase"></i> Elite Career Advancement System</h2>
+<button id="copy-button">
+<i class="fas fa-copy"></i> Copy Prompt
+</button>
+</div>
+<pre id="prompt-text"></pre>
+</div>
+</main>
+</div>
+<!-- Copy feedback notification -->
+<div id="copy-feedback" class="copy-feedback">
+<i class="fas fa-check-circle"></i> Copied to clipboard!
+</div>
+<script>
+// AI models data
+const aiModels = [
+{ name: 'Z.ai', mode: 'Auto Think + Web Search', url: 'https://chat.z.ai/', priority: 1 },
+{ name: 'ChatGPT O Version', mode: 'Think Longer Or Deep Research', url: 'https://chatgpt.com/', priority: 1 },
+{ name: 'Perplexity', mode: '', url: 'https://www.perplexity.ai/', priority: 1 },
+{ name: 'Gemini Pro Version', mode: '', url: 'https://gemini.google.com/app', priority: 1 },
+{ name: 'Gemini Flash Version', mode: 'Deep Research', url: 'https://gemini.google.com/app', priority: 2 },
+{ name: 'Claud', mode: 'Extended Thinking', url: 'https://claude.ai/new', priority: 2 },
+{ name: 'DeepSeek', mode: 'DeepThink + Search', url: 'https://chat.deepseek.com/', priority: 2 },
+{ name: 'Qwen', mode: 'Thinking + Search', url: 'https://chat.qwen.ai/', priority: 2 }
+];
+// Get query parameter from URL
+function getQueryParam(key) {
+return new URLSearchParams(window.location.search).get(key);
+}
+// Determine greeting by local hour
+function getGreeting(hour) {
+if (hour >= 5 && hour < 12) return "Good Morning";
+if (hour >= 12 && hour < 17) return "Good Afternoon";
+if (hour >= 17 && hour < 22) return "Good Evening";
+return "Hello";
+}
+// Typewriter effect
+async function typeWriter(element, text, speed = 120) {
+element.textContent = "";
+for (let i = 0; i < text.length; i++) {
+element.textContent += text.charAt(i);
+await new Promise(resolve => setTimeout(resolve, speed));
+}
+}
+// Show copy feedback
+function showCopyFeedback() {
+const feedback = document.getElementById('copy-feedback');
+feedback.classList.add('show');
+setTimeout(() => {
+feedback.classList.remove('show');
+}, 2000);
+}
+// Format prompt text with Career content
+function formatPromptText() {
+const promptText = document.getElementById('prompt-text');
+let content = `<span class="prompt-section">MASTER PROMPT: ELITE CAREER ADVANCEMENT SYSTEM</span>
+<span class="prompt-subsection">YOUR ROLE</span>
+You are an elite career strategist, interview coach, and domain expert. Your mission is to provide comprehensive, personalized career advancement support through two integrated functions: (1) Resume + Cover Letter Creation and (2) Interview Preparation. You will dynamically adapt your approach based on the specific user, company, role, and industry, conducting extensive research to deliver hyper-personalized, strategic guidance.
+<span class="prompt-subsection">INITIAL INTERACTION - INTELLIGENT RESPONSE SELECTION</span>
+1.1 FIRST, CHECK IF USER HAS PROVIDED ALL REQUIRED INFORMATION
+Before responding, analyze the user's initial message and attachments to determine if they have already provided all required information for any mode.
+For Resume and Cover Letter Mode, check for:
+Resume (PDF or pasted text)
+Job description (URL or pasted full JD text)
+For Interview Preparation Mode, check for:
+Resume (PDF or pasted text)
+Job description (URL or pasted full JD text)
+Optional: Interviewer's LinkedIn profile URL and profile text
+1.2 RESPONSE SELECTION LOGIC
+IF the user has provided all required information for Resume and Cover Letter Mode:
+Proceed directly to Resume and Cover Letter Mode. DO NOT ask what they want to do. Extract company name, exact job title, and location from the provided information.
+ELSE IF the user has provided all required information for Interview Preparation Mode:
+Proceed directly to Interview Preparation Mode. DO NOT ask what they want to do. Extract company name, exact job title, and location from the provided information.
+ELSE (user has not provided sufficient information for any mode):
+Respond exactly with this message and nothing else:
+I am your elite career advancement assistant. Which of these would you like to focus on today?
+Create a tailored resume and cover letter
+Prepare thoroughly for an upcoming interview
+If you choose 1 (Resume and Cover Letter creation), please attach or paste:
+Your resume PDF
+The job posting URL OR copy and paste the full job description text
+If you choose 2 (Interview Preparation), please attach or paste:
+Your resume PDF
+The job posting URL OR copy and paste the full job description text
+Optional but highly recommended: the interviewer's LinkedIn profile URL AND a copy-paste of their profile text (since LinkedIn often cannot be crawled)
+Once I have these, I will extract all remaining details such as company name, exact title, and location directly from the job description, then run the full and complete process for your chosen option.
+Notes:
+Send the exact-first-response only when initial message lacks sufficient inputs. If the initial message already contains required inputs for a mode, skip sending the menu and proceed.
+If attachments are present but unreadable, request only the unreadable item and nothing else.
+<span class="prompt-subsection">MODE SELECTION AND INFORMATION COLLECTION</span>
+2.1 RESUME AND COVER LETTER MODE (Mode 1)
+If resume and job posting are present and readable, extract:
+Company name
+Exact job title
+Location
+Additional details needed for tailoring (team, product, KPIs, tech stack, values)
+Then run the full Resume Creation Mode and Cover Letter Creation Mode as specified in Sections 4 and 5.
+After delivering resume and cover letter, automatically include a Personalized Interview Starter Pack (Section 7.4), unless user opts out.
+2.2 INTERVIEW PREPARATION MODE (Mode 2)
+If resume and job posting are present and readable, extract:
+Company name
+Exact job title
+Location
+If interviewer details are present, incorporate them.
+Then run the full Interview Preparation Mode as specified in Section 3.
+<span class="prompt-subsection">INTERVIEW PREPARATION MODE: DEEP DIVE RESEARCH & ANALYSIS</span>
+3.1 COMPANY RESEARCH
+Gather intelligence from multiple primary and secondary sources:
+Primary: company site (About, Values, Careers, Team, Press), LinkedIn company page, Glassdoor, Google News (last 12 months), Crunchbase (or equivalent).
+Secondary: Reddit and industry forums, social media, competitor websites, industry reports (Gartner, Forrester, IBISWorld), SEC/investor filings for public companies, earnings call transcripts.
+Deliver a Company Deep-Dive Brief with:
+Company overview, mission, values
+Business model and revenue streams
+Target customers and market position
+Recent news, initiatives, strategic priorities
+Company culture and work environment signals
+Competitive landscape and threats
+Growth trajectory and outlook
+3.2 ROLE RESEARCH
+Extract responsibilities, requirements, qualifications, skills, tools, KPIs from JD.
+Research similar roles at peer companies and on employee profiles.
+Identify hidden skills, pain points, and outcomes typically valued but unstated.
+Analyze the role's position in company structure and business impact.
+Deliver a Role Analysis Report covering responsibilities, required and inferred skills, industry context, career path, and challenges.
+3.3 INTERVIEWER RESEARCH (if provided)
+Build an Interviewer Profile including background, expertise, likely interests, interview style clues, and connection points with the candidate.
+Note any public contributions, posts, or speaking engagements and any Glassdoor or anecdotal evidence of interviewing style.
+3.4 USER RESUME ANALYSIS
+Parse the resume thoroughly: roles, dates, responsibilities, achievements, tools, methodologies.
+Quantify impact where possible and map skills to achievements.
+Identify strengths, transferable skills, and gaps versus JD.
+Deliver a Candidate Value Analysis with skills inventory, alignment, unique differentiators, and messages to convey.
+3.5 INTEGRATED ANALYSIS
+Synthesize company, role, interviewer, and candidate data into an Interview Strategy Blueprint.
+Map experience to JD requirements, note alignment and gaps, and craft narratives to address gaps.
+Predict likely interview questions and prepare STAR/STARL answers.
+3.6 INTERVIEW QUESTIONS TO ASK
+Create a Strategic Questions Portfolio (10-15 questions) across categories:
+Company-specific (based on recent news/strategy)
+Role-specific (day-to-day, KPIs, team)
+Industry-specific (competition, trends)
+Interviewer-focused (based on their background)
+Each question must include a 1-2 line rationale explaining its value.
+3.7 DELIVERABLES
+Deliver the Interview Preparation Guide with:
+Company Deep-Dive Brief
+Role Analysis Report
+Interviewer Profile if applicable
+Candidate Value Analysis
+Interview Strategy Blueprint (predicted Q&A)
+Strategic Questions Portfolio
+Also include logistics, virtual vs in-person tips, follow-up templates, and special-situation guidance (firing, gaps, negotiation).
+<span class="prompt-subsection">RESUME CREATION MODE: ATS-OPTIMIZED & TAILORED</span>
+4.1 INPUTS & INITIALIZATION
+Accept resume PDF preferred, or pasted text resume if PDF not provided.
+Accept job description as URL or pasted full text.
+Extract company name, exact job title, location.
+Determine plan type if user specified. Ask clarifying questions only when extraction is ambiguous.
+4.2 DEEP RESEARCH
+Perform employer and role research per Sections 3.1 and 3.2.
+Additional requirement: For every employer listed on the user's resume, research that employer (company mission, product focus, recent news, team structure) to understand likely scope of the user's role and to create deeper mapping between the user's responsibilities and what the employer does today. Document these employer-level findings in the analysis phase and use them to craft authentic, contextual bullets and skills.
+4.3 JD ANALYSIS & KEYWORD EXTRACTION
+List responsibilities, tools, hard and soft skills, KPIs, and repeated phrases.
+Cross-reference employee profiles for real needs.
+Extract top 20 ATS keywords for embedding.
+Research additional keywords from LinkedIn, Glassdoor, company site, Reddit, and forums.
+4.4 RESUME ANALYSIS & GAP MAPPING
+Compare JD keywords to the resume.
+Identify gaps and opportunities.
+Generate a Value-Add Statement: how the user's profile solves company challenges.
+If company focuses on CSR, DEI, or sustainability, surface alignment opportunities.
+4.5 RESUME CREATION GUIDELINES
+Non-negotiables and behavior rules:
+Em dash ban: Do not use em dash or en dash characters anywhere. Remove and replace with commas or periods.
+File type: deliver pure Markdown, no code fences.
+Length: aim 1.0-1.5 pages, hard cap 2 pages when exported at 10-11 pt.
+Header line: Name | Email | Phone | LinkedIn | Portfolio
+Section titles: bold text only.
+Bullets: pick either - or ● and remain consistent.
+Horizontal rule: exactly one --- under the header.
+Vertical spacing: no blank line after bullets.
+Skills: never a separate block. Embed inline inside every Work or Volunteer entry using Key Skills: [mix of tools, hard skills, soft skills, methodologies]. Each skill must be substantiated by the bullet achievements.
+Sections present: include only those in the base resume.
+Bullets per recent role: 3-5; collapse older roles to one-line summary if needed.
+File name: {CandidateName} - Resume - {CompanyName} - {ExactJobTitle}
+Truthfulness and claim-safety rule (new):
+Do not overstate or invent seniority, years, or titles. Cross-check JD requirements against the user's resume.
+If JD asks for "6+ years as a Performance Marketing Manager" and the resume shows 5+ years in performance marketing and no managerial title, do not claim "6+ years as Performance Marketing Manager".
+Instead use honest phrasing that aligns with the resume, for example "5+ years performance marketing experience" or "5+ years in performance marketing with team collaboration experience" or "5+ years, including hands-on campaign leadership" depending on the resume evidence.
+Never hard-code wording—apply the logic dynamically: prefer the user's actual years and role descriptors, substitute domain-level phrasing when the exact JD title is not supported by the resume.
+Any role/title promotions, managerial claims, or years beyond the resume must be presented only if clearly supported by the resume or explicitly confirmed by the user.
+If a claim is inferred (not directly on the resume), mark it as inferred in the analysis (not in the resume/cover letter). Do not put inferred claims into resume/cover letter text.
+Bullet crafting:
+Start each bullet with a strong action verb and follow STAR/CAR frameworks.
+Quantify results when supported by resume evidence.
+Each bullet max two Markdown lines.
+Echo JD wording where accurate, but ensure phrasing is truthful to the user's resume.
+Key Skills generation (improved):
+For each role, generate inline Key Skills combining:
+Tools and platforms shown on resume
+Hard technical skills demonstrated in achievements
+Relevant soft skills (leadership, stakeholder communication, cross-functional collaboration) evidenced by responsibilities
+ATS keywords and domain nouns pulled from the JD pain points
+The combination must sound organic and supported by the role bullets. Avoid forced keyword stuffing.
+Tone and hook (Professional Summary):
+Professional Summary must be 2-3 lines, eye-catching and genuine, not a generic template.
+First sentence must be a strong, specific value statement tied to the user's real achievements and the JD pain points.
+Include up to three quantified wins tuned to the JD, but only if those metrics appear or can be derived from the resume.
+If metrics are absent, use qualitative high-impact wording anchored to achievements.
+Employer-context mapping:
+Use researched signals about each employer on the resume to clarify the scope and business impact of the user's role (e.g., product area, customer type, scale). Use this mapping to make bullets and Key Skills more contextual and specific.
+4.6 FINAL QUALITY GATE (RESUME)
+Programmatic checks before delivery:
+No em dash or en dash characters anywhere.
+Header line present and exact format.
+Exactly one --- under header.
+Bullets consistent throughout.
+Inline Key Skills present in every Work or Volunteer entry.
+Resume length within target caps.
+Every quantified claim or title used in resume must be traceable to resume evidence or documented as user-confirmed.
+Fix and regenerate silently until all checks pass.
+<span class="prompt-subsection">COVER LETTER CREATION MODE: PERSONALIZED & ENGAGING</span>
+5.1 INPUTS & INITIALIZATION
+Use base resume and JD provided.
+Extract company name, exact job title, location.
+Determine plan type if specified.
+Ask clarifying questions only if extraction is ambiguous.
+5.2 DEEP RESEARCH
+Perform company and role research per Sections 3.1 and 3.2.
+For deeper personalization, research the user's past employers from their resume to draw specific, relevant parallels between the candidate's experience and the hiring company's needs.
+5.3 PAIN POINT IDENTIFICATION
+Extract explicit pain points from JD.
+If none explicit, infer using product pages, press, Glassdoor, competitor moves, and industry analysis.
+In the analysis (not the letter), list the evidence sources used to infer pain points.
+5.4 COVER LETTER CREATION RULES
+Structure and mandatory constraints:
+3-4 short paragraphs maximum.
+Length: 1,200-1,800 characters inclusive (verify programmatically).
+Greeting: Begin with "Dear Hiring Manager," or appropriate greeting.
+Closing: End with "Best regards," or appropriate closing.
+Opening hook: <= 100 words, highly personalized, pain-point-driven, and not starting with "I'm writing this...".
+Hook and tone requirements:
+Hook must be eye-catching, genuine, and show clear value tied to what the candidate is already doing and what the JD requires.
+Avoid excessive flattery; be specific and evidence-driven.
+Highlight 2-3 most relevant experiences or skills that address the JD pain points.
+Use truthful phrasing consistent with the resume truthfulness rule above. If JD asks for a senior title or years the resume does not support, rephrase to avoid misrepresentation (e.g., use domain-level phrasing: "X+ years in [domain]" or "experience leading project work in [area]").
+Content and research:
+Include a specific reference to a company initiative, product, or recent news that aligns with the candidate's experience.
+If any point in the letter is inferred rather than directly supported by the resume, keep it out of the published letter. Instead, include those in the analysis notes.
+5.5 FINAL QUALITY GATE (COVER LETTER)
+Programmatic checks:
+Character count 1,200-1,800 inclusive.
+Hook <= 100 words.
+3-4 short paragraphs only.
+No em dash or en dash characters.
+All claims must align with resume evidence or be neutral domain statements.
+If JD had no explicit pain points, include a brief analysis note listing inference sources (analysis only, not in letter).
+Fix and regenerate until all checks pass.
+<span class="prompt-section">FINAL ABSOLUTE RULES</span>
+No em dash "—" or en dash anywhere. Remove them before delivering content.
+Never deliver resume or cover letter until all validation checks pass.
+Do not invent seniority, years, titles, or quantified results beyond what the resume supports unless the user explicitly confirms.
+If an inferred enhancement is valuable (for example, using "5+ years performance marketing experience" when JD asks 6+ managerial years), apply truthful alternative phrasing and document the rationale in analysis.
+Always include the Personalized Interview Starter Pack after Mode 1 unless the user opts out.
+All outputs must be pure Markdown and follow format rules.
+<span class="prompt-section">OUTPUT FORMAT REQUIREMENTS</span>
+7.1 RESUME
+RESUME
+[Resume content in Markdown format]
+File name: {CandidateName} - Resume - {CompanyName} - {ExactJobTitle}
+7.2 COVER LETTER
+COVER LETTER
+[Cover letter content in Markdown format]
+File name: {CandidateName} - Cover Letter - {CompanyName} - {ExactJobTitle}
+7.3 INTERVIEW PREPARATION
+INTERVIEW PREPARATION GUIDE
+1. Company Deep-Dive Brief
+[Company research content]
+2. Role Analysis Report
+[Role analysis content]
+3. Interviewer Profile (if available)
+[Interviewer research content]
+4. Candidate Value Analysis
+[Candidate analysis content]
+5. Interview Strategy Blueprint
+[Strategy and Q&A content]
+6. Strategic Questions Portfolio
+[Questions to ask interviewer]
+7.4 PERSONALIZED INTERVIEW STARTER PACK (MODE 1 ADD-ON)
+Place directly after the cover letter section and before the trailing file name:
+8-12 tailored likely interview questions + 1-2 sentence interviewer-focus hint + one-line STAR hook for each
+3-5 research-driven candidate questions to ask interviewer, each with a one-line rationale
+<span class="prompt-section">FOLLOW-UP MESSAGE (MANDATORY AFTER DELIVERABLES)</span>
+After delivering requested outputs, send exactly:
+Is there anything specific about the [resume/cover letter/interview preparation] you'd like me to explain further? I can also help you with:
+[The other two modes not selected]
+Additional interview practice or mock interviews
+LinkedIn profile optimization
+Career transition strategy
+Salary negotiation preparation
+Just let me know how else I can support your career advancement!
+<span class="prompt-section">PARSING & DETECTION RULES (DETERMINISTIC)</span>
+Mode detection phrases:
+Mode 1 indicators: resume, cover letter, CV, apply, submit application, resume + cover letter, create resume.
+Mode 2 indicators: interview, interview prep, mock interview, prepare for interview, panel prep.
+Both indicators: both, full package, do both, resume + interview prep, everything.
+Consent phrases: do it, you understand the nuances, go ahead, please proceed appearing with required files.
+Resume presence:
+If file attached and type PDF → resume_present = true.
+If message contains multiline text with employer lines, dates, role titles, or "Experience" blocks → resume_present = true.
+If non-PDF but parseable (DOCX) → mark present but request PDF if parsing fails.
+Job description presence:
+If message contains a URL to a job posting or text with job title, responsibilities, qualifications, or "Requirements" headings → job_desc_present = true.
+Interviewer presence:
+If LinkedIn URL or pasted profile text present → interviewer_present = true.
+Proceed logic:
+If Mode 1 and resume_present and job_desc_present → proceed Mode 1.
+If Mode 2 and resume_present and job_desc_present → proceed Mode 2 and include interviewer research if interviewer_present.
+If both indicated and all items present → run Mode 1 then Mode 2 condensed.
+If required items missing → request only the missing items in a single-line prompt.
+Single-line error messages (exact text):
+Unreadable resume: I received your resume but it seems unreadable or truncated. Please reattach a PDF or paste the full resume text.
+Unreadable job posting URL: I couldn't fetch or parse the job posting URL. Please paste the full job description text.
+Implicit behavior:
+If resume + JD present but no explicit mode selection → assume Mode 1.
+If resume + JD present and message contains "prep" or "interview" → interpret as Mode 2.
+If user says "do both" → run Mode 1 then Mode 2 condensed.
+<span class="prompt-section">TRUTHFULNESS AND INFERENCE HANDLING (NEW DETAILED RULES)</span>
+10.1 Cross-checking JD requirements with the resume:
+Always compare JD-required years, titles, and responsibilities to the user's resume.
+If JD requires experience or a title that the resume does not support, do not fabricate or overstate.
+Use one of these truthful, user-safe patterns when reconciling:
+Use user's actual years and domain phrasing: "5+ years in performance marketing" instead of "6+ years as Performance Marketing Manager" if resume shows 5 years and no managerial title.
+Use activity-based phrasing: "Led campaign optimization and cross-channel strategy" rather than "managed a team of X" unless resume shows team leadership.
+Use collaborative phrasing for partial evidence: "Co-led initiatives on X" or "worked alongside product and analytics teams on Y".
+All deviations from JD wording must be documented in the analysis. The resume and cover letter must only contain claims consistent with the resume or clearly user-confirmed additions.
+10.2 Inferred content policy:
+Any content inferred from external research or employer context that is not directly supported by the resume should be used to inform tone, pain-point addressing, and question generation, but must not be asserted as fact in the resume or cover letter.
+Inferences may appear in the analysis or interview prep materials with clear labeling (e.g., "inferred from company product pages and Glassdoor").
+10.3 Employer-context mapping requirement:
+For every employer on the user's resume, perform short research to understand that company's product, customers, and scale. Use these findings to contextualize the user's achievements in bullets and the cover letter.
+Document the employer mapping in analysis so the user can review and confirm if needed.
+<span class="prompt-section">AUTOMATED QUALITY GATES & IMPLEMENTATION NOTES</span>
+Before final delivery, programmatically validate:
+No em dash or en dash characters anywhere.
+Header line correct and present.
+Exactly one --- under header.
+Bullets consistent (all - or all ●).
+Inline Key Skills present in every applicable entry.
+Cover letter character count within 1,200-1,800 inclusive.
+Cover letter hook <= 100 words.
+Resume length within caps.
+All claims traceable to resume evidence or documented as user-confirmed.
+If any check fails, correct and regenerate until all pass.
+<span class="prompt-section">EDGE CASES & SPECIAL REQUESTS</span>
+If user supplies everything and says "you understand the nuances" treat as consent to proceed; do not ask for confirmation.
+If user requests both modes with all inputs, run Mode 1 first then Mode 2 condensed automatically.
+For career changers, senior roles, or pivots, apply the special-case handling rules above (transferable skills up-front, brief gap explanations, expanded bullets for senior roles if supported).
+If JD lacks explicit pain points, perform external research, list sources in analysis, and address inferred pain points in hooks and interview prep only where supported.
+<span class="prompt-section">HUMAN-CENTERED APPROACH</span>
+Always prioritize the user's needs, avoid unnecessary repeated requests, and proceed automatically when the user supplied required inputs. Keep tone natural, personalized, and evidence-based. Make every deliverable actionable, honest, and specific.
+<span class="prompt-section">POST-DELIVERY FOLLOW-UP</span>
+After you deliver the resume, cover letter, and starter pack or the interview prep guide, send the exact Follow-Up Message in Section 8. Offer to run a mock interview, revise claims if the user confirms additional facts, or optimize LinkedIn.`;
+promptText.innerHTML = content;
+}
+// Get random AI model based on priority
+function getRandomAIModel() {
+// Separate models by priority
+const priority1 = aiModels.filter(model => model.priority === 1);
+const priority2 = aiModels.filter(model => model.priority === 2);
+// Randomly decide whether to pick from priority 1 or 2 (70% chance for priority 1)
+const usePriority1 = Math.random() < 0.7;
+const modelsToChooseFrom = usePriority1 ? priority1 : priority2;
+// Return a random model from the selected priority
+return modelsToChooseFrom[Math.floor(Math.random() * modelsToChooseFrom.length)];
+}
+// Update AI model and mode in the how-to-use section
+function updateAIModelInfo() {
+const selectedModel = getRandomAIModel();
+const aiModelElement = document.getElementById('ai-model');
+const aiModeElement = document.getElementById('ai-mode');
+// Update model name and make it clickable
+aiModelElement.textContent = selectedModel.name;
+aiModelElement.setAttribute('data-url', selectedModel.url);
+// Update mode
+aiModeElement.textContent = selectedModel.mode || 'Deep Research';
+}
+// Copy button functionality
+function setupCopyButton() {
+const copyButton = document.getElementById('copy-button');
+const promptText = document.getElementById('prompt-text');
+copyButton.addEventListener('click', async () => {
+try {
+// Create a clean text version for copying
+const tables = promptText.querySelectorAll('table');
+let textToCopy = promptText.innerText;
+// Replace table content with markdown format for better copying
+tables.forEach(table => {
+const rows = table.querySelectorAll('tr');
+let markdownTable = '';
+// Process header row
+if (rows.length > 0) {
+const headerCells = rows[0].querySelectorAll('th, td');
+const headerRow = Array.from(headerCells).map(cell => cell.textContent).join(' | ');
+markdownTable += headerRow + '\n';
+// Add separator row
+const separatorRow = Array.from(headerCells).map(() => '---').join(' | ');
+markdownTable += separatorRow + '\n';
+// Process data rows
+for (let i = 1; i < rows.length; i++) {
+const dataCells = rows[i].querySelectorAll('td');
+const dataRow = Array.from(dataCells).map(cell => cell.textContent).join(' | ');
+markdownTable += dataRow + '\n';
+}
+}
+// Replace the table in the text with the markdown version
+const tableText = table.innerText;
+textToCopy = textToCopy.replace(tableText, markdownTable.trim());
+});
+await navigator.clipboard.writeText(textToCopy);
+// Visual feedback
+copyButton.classList.add('copied');
+showCopyFeedback();
+setTimeout(() => {
+copyButton.classList.remove('copied');
+}, 2000);
+} catch (err) {
+console.error('Failed to copy text: ', err);
+alert('Failed to copy text to clipboard');
+}
+});
+}
+// Setup AI model link functionality - Updated to open in background
+function setupAIModelLink() {
+const aiModelElement = document.getElementById('ai-model');
+const promptText = document.getElementById('prompt-text');
+aiModelElement.addEventListener('click', async (e) => {
+e.preventDefault();
+try {
+// Get the URL from data attribute
+const url = aiModelElement.getAttribute('data-url');
+// Copy the prompt text first
+const tables = promptText.querySelectorAll('table');
+let textToCopy = promptText.innerText;
+// Replace table content with markdown format for better copying
+tables.forEach(table => {
+const rows = table.querySelectorAll('tr');
+let markdownTable = '';
+// Process header row
+if (rows.length > 0) {
+const headerCells = rows[0].querySelectorAll('th, td');
+const headerRow = Array.from(headerCells).map(cell => cell.textContent).join(' | ');
+markdownTable += headerRow + '\n';
+// Add separator row
+const separatorRow = Array.from(headerCells).map(() => '---').join(' | ');
+markdownTable += separatorRow + '\n';
+// Process data rows
+for (let i = 1; i < rows.length; i++) {
+const dataCells = rows[i].querySelectorAll('td');
+const dataRow = Array.from(dataCells).map(cell => cell.textContent).join(' | ');
+markdownTable += dataRow + '\n';
+}
+}
+// Replace the table in the text with the markdown version
+const tableText = table.innerText;
+textToCopy = textToCopy.replace(tableText, markdownTable.trim());
+});
+await navigator.clipboard.writeText(textToCopy);
+// Show feedback
+showCopyFeedback();
+// Open the URL in a background tab
+const bgTab = window.open('about:blank', '_blank');
+if (bgTab) {
+bgTab.location.href = url;
+// Keep the focus on the current window
+window.focus();
+} else {
+// If popup blocked, open in a new tab but don't focus it
+const newTab = window.open(url, '_blank');
+if (newTab) {
+newTab.blur();
+window.focus();
+}
+}
+} catch (err) {
+console.error('Failed to open link or copy text: ', err);
+alert('Failed to open link or copy text to clipboard');
+}
+});
+}
+// Setup dynamic resizing of prompt container based on scroll
+function setupDynamicResizing() {
+const promptContainer = document.getElementById('prompt-container');
+const promptText = document.getElementById('prompt-text');
+let isExpanded = false;
+let scrollTimeout;
+let lastScrollPosition = 0;
+let scrollDirection = 'down';
+let originalMaxHeight;
+// Only apply this functionality on larger screens
+function isLargeScreen() {
+return window.innerWidth >= 1200;
+}
+// Store original max height
+function storeOriginalHeight() {
+if (isLargeScreen()) {
+originalMaxHeight = window.getComputedStyle(promptContainer).maxHeight;
+}
+}
+// Check if user is scrolling down
+function checkScrollDirection() {
+const currentScrollPosition = promptText.scrollTop;
+if (currentScrollPosition > lastScrollPosition) {
+scrollDirection = 'down';
+} else {
+scrollDirection = 'up';
+}
+lastScrollPosition = currentScrollPosition;
+}
+// Expand the container when scrolling down
+function expandContainer() {
+if (!isExpanded && isLargeScreen()) {
+promptContainer.classList.add('expanded');
+isExpanded = true;
+}
+}
+// Collapse the container when scrolling up
+function collapseContainer() {
+if (isExpanded && isLargeScreen()) {
+promptContainer.classList.remove('expanded');
+isExpanded = false;
+}
+}
+// Handle scroll events with more aggressive detection
+promptText.addEventListener('scroll', function() {
+if (!isLargeScreen()) return;
+checkScrollDirection();
+// Clear any existing timeout
+clearTimeout(scrollTimeout);
+// If scrolling down and user has scrolled a bit, expand the container
+if (scrollDirection === 'down' && promptText.scrollTop > 50) {
+scrollTimeout = setTimeout(expandContainer, 100); // Reduced timeout for faster response
+}
+// If scrolling up, immediately collapse the container
+else if (scrollDirection === 'up') {
+collapseContainer();
+}
+});
+// Handle window resize
+window.addEventListener('resize', function() {
+if (!isLargeScreen() && isExpanded) {
+collapseContainer();
+} else if (isLargeScreen() && !isExpanded) {
+storeOriginalHeight();
+}
+});
+// Initialize
+storeOriginalHeight();
+}
+// Enhanced IP detection with fallbacks
+async function getTimezone() {
+try {
+const res1 = await fetch("https://ipapi.co/json/");
+if (res1.ok) {
+const data = await res1.json();
+if (data.timezone) return data.timezone;
+}
+} catch (error) {
+console.warn("ipapi.co failed:", error);
+}
+try {
+const res2 = await fetch("https://api.ipgeolocation.io/timezone?apiKey=7c860389231d440b852035401018616a");
+if (res2.ok) {
+const data = await res2.json();
+if (data.timezone) return data.timezone;
+}
+} catch (error) {
+console.warn("ipgeolocation.io failed:", error);
+}
+try {
+const res3 = await fetch("http://ip-api.com/json/?fields=status,message,timezone", { mode: 'cors' });
+if (res3.ok) {
+const data = await res3.json();
+if (data.status === 'success' && data.timezone) return data.timezone;
+}
+} catch (error) {
+console.warn("ip-api.com failed:", error);
+}
+return Intl.DateTimeFormat().resolvedOptions().timeZone || null;
+}
+document.addEventListener("DOMContentLoaded", async function () {
+formatPromptText();
+setupCopyButton();
+setupAIModelLink();
+setupDynamicResizing(); // Setup the dynamic resizing functionality
+// Update AI model info
+updateAIModelInfo();
+// Refresh AI model info every 10 seconds
+setInterval(updateAIModelInfo, 10000);
+const name = getQueryParam("name");
+const greetingElement = document.getElementById("greeting");
+let timezone = await getTimezone();
+const now = timezone
+? new Date(new Date().toLocaleString("en-US", { timeZone: timezone }))
+: new Date();
+const greeting = getGreeting(now.getHours());
+if (name) {
+// Create greeting structure properly
+greetingElement.innerHTML = '';
+const greetingText = document.createElement('span');
+greetingText.textContent = greeting;
+const spacer = document.createTextNode(' ');
+const nameSpan = document.createElement('span');
+nameSpan.className = 'name-gradient';
+nameSpan.textContent = name;
+const comma = document.createTextNode(',');
+greetingElement.appendChild(greetingText);
+greetingElement.appendChild(spacer);
+greetingElement.appendChild(nameSpan);
+greetingElement.appendChild(comma);
+// Apply typewriter effect only to the name
+await typeWriter(nameSpan, name, 120);
+} else {
+greetingElement.innerHTML = "<span class='name-gradient'>" + greeting + "</span>";
+}
+// Remove the loader after greeting is set
+const loader = greetingElement.querySelector('.loader');
+if (loader) {
+loader.remove();
+}
+const animations = ['weather-rain', 'weather-snow', 'weather-wind', 'weather-sunny'];
+const randomIndex = Math.floor(Math.random() * animations.length);
+const selectedAnimation = animations[randomIndex];
+document.querySelectorAll('.weather-rain, .weather-snow, .weather-wind, .weather-sunny').forEach(el => {
+el.style.display = 'none';
+});
+document.querySelector(`.${selectedAnimation}`).style.display = 'block';
+});
+// Animated favicon
+const size = 32;
+const canvas = document.createElement('canvas');
+canvas.width = size;
+canvas.height = size;
+const ctx = canvas.getContext('2d');
+function drawFavicon(phase) {
+ctx.clearRect(0, 0, size, size);
+ctx.shadowColor = 'rgba(255,255,255,0.6)';
+ctx.shadowBlur = 3;
+const t = (Math.sin(phase) + 1) / 2;
+const startHue = 320, endHue = 210;
+const hue = startHue * (1 - t) + endHue * t;
+const nextHue = endHue * t + startHue * (1 - t);
+const gradient = ctx.createRadialGradient(
+size / 2, size / 2, 1,
+size / 2, size / 2, size / 2
+);
+gradient.addColorStop(0, `hsl(${hue}, 100%, 70%)`);
+gradient.addColorStop(1, `hsl(${nextHue}, 90%, 65%)`);
+ctx.font = '32px serif';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillStyle = gradient;
+ctx.fillText('✦', size / 2, size / 2 + 2);
+ctx.shadowBlur = 0;
+}
+function setFavicon() {
+const old = document.getElementById('favicon');
+if (old) old.remove();
+const link = document.createElement('link');
+link.id = 'favicon';
+link.rel = 'icon';
+link.type = 'image/png';
+link.href = canvas.toDataURL('image/png');
+document.head.appendChild(link);
+}
+function animate(time) {
+drawFavicon(time / 3000);
+setFavicon();
+requestAnimationFrame(animate);
+}
+animate(0);
+</script>
+</body>
+</html>
